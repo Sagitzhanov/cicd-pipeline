@@ -25,5 +25,15 @@ pipeline {
                 sh 'docker build -t myfirstapp .'
             }
         }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_creds_id') {
+                        sh 'docker tag myfirstapp sagitzhanov/myfirstapp:latest'
+                        sh 'docker push sagitzhanov/myfirstapp:latest'
+                    }
+                }
+            }
+        }
     }
 }
